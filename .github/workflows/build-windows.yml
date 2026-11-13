@@ -1,0 +1,64 @@
+name: Build Windows Chinese Installer
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [zh-CN]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: windows-zh-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Windows x64 installer
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - name: Restore reviewed Chinese source on first build
+        shell: pwsh
+        run: |
+          if (-not (Test-Path BUILD.zh-CN.md)) {
+            python localization/apply_zh.py
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add app crates extension BUILD.zh-CN.md localization
+            git commit -m 'Restore reviewed Simplified Chinese source'
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            git push origin HEAD:${{ github.ref_name }}
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          }
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - name: Install interface dependencies
+        working-directory: app
+        run: npm ci
+      - name: Build Chinese interface
+        working-directory: app
+        run: npm run build
+      - name: Test Rust workspace
+        run: cargo test --workspace --locked
+      - name: Build Chinese NSIS installer
+        working-directory: app/src-tauri
+        run: npx --yes @tauri-apps/cli@2 build --bundles nsis
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: SwiftDL-zh-CN-Windows-x64
+          path: target/release/bundle/nsis/*-setup.exe
+          if-no-files-found: error
+          retention-days: 30
