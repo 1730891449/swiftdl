@@ -45,6 +45,13 @@ export type IconName = keyof typeof P | string;
 export const icon = (n: IconName): string =>
   `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${P[n] || P.file}</svg>`;
 
+/** Display names only: backend category IDs and existing folders stay stable. */
+const CATEGORY_NAMES: Record<string, string> = {
+  Video: "视频", Music: "音乐", Programs: "程序", Compressed: "压缩包",
+  Documents: "文档", Images: "图片", Other: "其他",
+};
+export const categoryName = (name: string): string => CATEGORY_NAMES[name] || name;
+
 export interface Cat { color: string; icon: string }
 export const CATS: Record<string, Cat> = {
   Video: { color: "#8b5cf6", icon: "video" },
@@ -83,19 +90,19 @@ export function dur(sec: number): string {
   if (!isFinite(sec) || sec <= 0) return "—";
   sec = Math.ceil(sec);
   const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
-  return h ? `${h}h ${m}m` : m ? `${m}m ${s}s` : `${s}s`;
+  return h ? `${h} 小时 ${m} 分钟` : m ? `${m} 分 ${s} 秒` : `${s} 秒`;
 }
 /** A short, relative time: "Just now", "5m ago", "3:42 PM", "Yesterday", "Nov 1". */
 export function when(ms: number | null | undefined): string {
   if (!ms) return "";
   const d = new Date(ms), now = new Date();
   const mins = Math.round((now.getTime() - d.getTime()) / 60000);
-  if (mins < 1) return "Just now";
-  if (mins < 60) return `${mins}m ago`;
-  if (d.toDateString() === now.toDateString()) return d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  if (mins < 1) return "刚刚";
+  if (mins < 60) return `${mins} 分钟前`;
+  if (d.toDateString() === now.toDateString()) return d.toLocaleTimeString("zh-CN", { hour: "numeric", minute: "2-digit" });
   const y = new Date(now); y.setDate(now.getDate() - 1);
-  if (d.toDateString() === y.toDateString()) return "Yesterday";
-  return d.toLocaleDateString([], { month: "short", day: "numeric" });
+  if (d.toDateString() === y.toDateString()) return "昨天";
+  return d.toLocaleDateString("zh-CN", { month: "short", day: "numeric" });
 }
 const ESC: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 export const esc = (s: unknown): string => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);

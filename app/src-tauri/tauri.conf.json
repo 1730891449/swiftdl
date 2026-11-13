@@ -33,8 +33,8 @@
     "active": true,
     "targets": "all",
     "category": "Utility",
-    "shortDescription": "Fast, resumable download manager",
-    "longDescription": "SwiftDL speeds up downloads by splitting each file across many connections, resumes after crashes or network drops, and catches downloads from your browser.",
+    "shortDescription": "高速下载管理器，支持断点续传",
+    "longDescription": "SwiftDL 使用多连接分段下载提升速度，支持在崩溃或断网后继续下载，并自动接管浏览器下载。",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -48,6 +48,7 @@
     },
     "windows": {
       "nsis": {
+        "languages": ["SimpChinese"],
         "installMode": "currentUser",
         "installerIcon": "icons/icon.ico",
         "sidebarImage": "windows/sidebar.bmp",

@@ -128,7 +128,7 @@ pub struct Job {
 /// pieces and continues.
 pub async fn run(client: &Client, job: Job, progress: Arc<Progress>, note: crate::media::Note, cancel: CancellationToken) -> Result<Outcome> {
     let set_note = |t: Option<String>| *note.lock().unwrap() = t;
-    set_note(Some(if job.url.starts_with("magnet:") { "Finding peers".into() } else { "Starting".into() }));
+    set_note(Some(if job.url.starts_with("magnet:") { "正在查找节点".into() } else { "正在开始".into() }));
     let session = session().await?;
     std::fs::create_dir_all(&job.dir)?;
     let add = source(client, &job.url, &job.headers).await?;
@@ -164,12 +164,12 @@ pub async fn run(client: &Client, job: Job, progress: Arc<Progress>, note: crate
                 let seeds = live.snapshot.peer_stats.live_seeders;
                 progress.connections.store(peers as usize, Ordering::Relaxed);
                 set_note(Some(match peers {
-                    0 => "Looking for peers".into(),
-                    1 => "Downloading from 1 peer".into(),
-                    n => format!("Downloading from {n} peers · {seeds} seeding"),
+                    0 => "正在查找节点".into(),
+                    1 => "正在从 1 个节点下载".into(),
+                    n => format!("正在从 {n} 个节点下载 · {seeds} 个做种节点"),
                 }));
             }
-            None => set_note(Some("Checking existing pieces".into())),
+            None => set_note(Some("正在检查已有分块".into())),
         }
         tokio::select! {
             _ = tokio::time::sleep(Duration::from_millis(500)) => {}
@@ -224,7 +224,7 @@ pub fn register_handlers() -> Result<()> {
 
         // magnet: links
         let magnet = classes.create_subkey("magnet")?.0;
-        magnet.set_value("", &"URL:Magnet link")?;
+        magnet.set_value("", &"URL:磁力链接")?;
         magnet.set_value("URL Protocol", &"")?;
         magnet.create_subkey("DefaultIcon")?.0.set_value("", &icon)?;
         magnet.create_subkey(r"shell\open\command")?.0.set_value("", &open)?;

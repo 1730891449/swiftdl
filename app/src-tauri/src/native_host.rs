@@ -86,7 +86,7 @@ fn refused(v: &Value) -> Option<String> {
     };
     let result = tauri::async_runtime::block_on(probe)?;
     let err = format!("{:#}", result.err()?);
-    (err.starts_with("server returned") || err.starts_with("This link opens a web page")).then(|| format!("{err}. The browser keeps this download."))
+    (err.starts_with("服务器返回") || err.starts_with("此链接打开的是网页")).then(|| format!("{err}。此下载将继续由浏览器处理。"))
 }
 
 /// Starts the app with `args`. If it is already open, the single-instance
@@ -298,7 +298,7 @@ mod refusal_tests {
         let forbidden = serve("HTTP/1.1 403 Forbidden\r\nContent-Length: 0\r\nConnection: close\r\n\r\n");
         assert!(ask(&forbidden).unwrap().contains("403"));
         let page = serve("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Length: 2\r\nConnection: close\r\n\r\nhi");
-        assert!(ask(&page).unwrap().contains("web page"));
+        assert!(ask(&page).unwrap().contains("网页"));
         let file = serve("HTTP/1.1 206 Partial Content\r\nContent-Type: application/zip\r\nContent-Range: bytes 0-0/1000\r\nContent-Length: 1\r\nConnection: close\r\n\r\nx");
         assert_eq!(ask(&file), None, "a working link is taken over");
         assert_eq!(ask("http://127.0.0.1:1/unreachable.zip"), None, "no answer is not a refusal");

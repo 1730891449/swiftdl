@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark light">
-<title>SwiftDL Remote</title>
+<title>SwiftDL 远程控制</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14.5' fill='%2317181c'/%3E%3Cg fill='%23fff' transform='translate(13 13) scale(1.1875)'%3E%3Crect x='4.5' y='3' width='4.4' height='12' rx='2.2'/%3E%3Crect x='10.9' y='3' width='4.4' height='17' rx='2.2'/%3E%3Crect x='16.7' y='3' width='4.4' height='17' rx='2.2'/%3E%3Crect x='23.1' y='3' width='4.4' height='12' rx='2.2'/%3E%3Cpath d='M6 21.5 16 28l10-6.5' fill='none' stroke='%23fff' stroke-width='4.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E">
 <style>
   /* The same colours and spacing as SwiftDL's own window. */
   :root { --bg:#f3f3f5; --panel:#fff; --group:rgba(248,248,250,.94); --border:rgba(15,15,25,.08); --border-2:rgba(15,15,25,.13); --text:#17171c; --text-2:#3c3d45; --muted:#6c6e78; --faint:#a2a4ad; --accent:#007aff; --btn:rgba(15,15,25,.055); --btn-h:rgba(15,15,25,.09); --hover:rgba(15,15,25,.04); --pbg:#18181b; --ptext:#fff; --green:#23864f; --amber:#b9780c; --red:#cf4540; --track:rgba(15,15,25,.08); color-scheme:light; }
   @media (prefers-color-scheme: dark) { :root { --bg:#090a0c; --panel:#101114; --group:rgba(20,21,25,.94); --border:rgba(255,255,255,.07); --border-2:rgba(255,255,255,.12); --text:#eef0f3; --text-2:#c7cad1; --muted:#8a8e98; --faint:#5c6069; --accent:#0a84ff; --btn:rgba(255,255,255,.07); --btn-h:rgba(255,255,255,.11); --hover:rgba(255,255,255,.035); --pbg:#eceef1; --ptext:#0e0f12; --green:#3fa877; --amber:#d9a03e; --red:#e0605a; --track:rgba(255,255,255,.08); color-scheme:dark; } }
   * { box-sizing: border-box; }
-  html, body { margin: 0; background: var(--bg); color: var(--text); font: 13.5px/1.4 "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  html, body { margin: 0; background: var(--bg); color: var(--text); font: 13.5px/1.4 "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
   .card { max-width: 920px; margin: 0 auto; min-height: 100vh; background: var(--panel); }
   @media (min-width: 960px) { body { padding: 20px 0; } .card { min-height: calc(100vh - 40px); border-radius: 12px; box-shadow: 0 0 0 1px var(--border); overflow: clip; } }
 
@@ -80,13 +80,13 @@
     <b>SwiftDL</b><span class="grow"></span>
     <svg id="spark" viewBox="0 0 84 22" preserveAspectRatio="none" aria-hidden="true"><path d=""/></svg><span id="speed"></span>
   </header>
-  <form class="bar" id="add"><input id="url" type="text" inputmode="url" placeholder="Paste a link to download" autocomplete="off" spellcheck="false"><button class="primary" type="submit">Download</button></form>
-  <div class="tools"><button type="button" id="pauseall">Pause all</button><button type="button" id="resumeall">Resume all</button></div>
+  <form class="bar" id="add"><input id="url" type="text" inputmode="url" placeholder="粘贴下载链接" autocomplete="off" spellcheck="false"><button class="primary" type="submit">下载</button></form>
+  <div class="tools"><button type="button" id="pauseall">全部暂停</button><button type="button" id="resumeall">全部继续</button></div>
   <div id="list"></div>
 </div>
 <div id="gate"><form id="gateform">
-  <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14.5" fill="#17181c"/><g fill="#fff" transform="translate(13 13) scale(1.1875)"><rect x="4.5" y="3" width="4.4" height="12" rx="2.2"/><rect x="10.9" y="3" width="4.4" height="17" rx="2.2"/><rect x="16.7" y="3" width="4.4" height="17" rx="2.2"/><rect x="23.1" y="3" width="4.4" height="12" rx="2.2"/><path d="M6 21.5 16 28l10-6.5" fill="none" stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>SwiftDL Remote</div>
-  <p>Enter the secret from SwiftDL's Settings, Local API.</p><input id="secret" type="password" placeholder="Secret" autocomplete="off"><div class="bad" id="bad"></div><button class="primary" type="submit">Connect</button></form></div>
+  <div class="brand"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14.5" fill="#17181c"/><g fill="#fff" transform="translate(13 13) scale(1.1875)"><rect x="4.5" y="3" width="4.4" height="12" rx="2.2"/><rect x="10.9" y="3" width="4.4" height="17" rx="2.2"/><rect x="16.7" y="3" width="4.4" height="17" rx="2.2"/><rect x="23.1" y="3" width="4.4" height="12" rx="2.2"/><path d="M6 21.5 16 28l10-6.5" fill="none" stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/></g></svg>SwiftDL 远程控制</div>
+  <p>输入 SwiftDL“设置 → 速度 → 本地 API”中的密钥。</p><input id="secret" type="password" placeholder="密钥" autocomplete="off"><div class="bad" id="bad"></div><button class="primary" type="submit">连接</button></form></div>
 <div id="toast"></div>
 <script>
 const $ = (id) => document.getElementById(id);
@@ -103,7 +103,7 @@ const val = (r) => (Array.isArray(r) ? r[0] : null);
 const unauthorized = (r) => r && !Array.isArray(r) && r.message === "Unauthorized";
 
 const bytes = (n) => { n = Number(n) || 0; const u = ["B", "KB", "MB", "GB", "TB"]; let i = 0; while (n >= 1024 && i < 4) { n /= 1024; i++; } return (i ? n.toFixed(n >= 100 ? 0 : 1) : n) + " " + u[i]; };
-const clock = (s) => (s < 60 ? `${Math.ceil(s)} s` : s < 3600 ? `${Math.floor(s / 60)} min` : `${Math.floor(s / 3600)} h ${Math.floor((s % 3600) / 60)} min`);
+const clock = (s) => (s < 60 ? `${Math.ceil(s)} 秒` : s < 3600 ? `${Math.floor(s / 60)} 分钟` : `${Math.floor(s / 3600)} 小时 ${Math.floor((s % 3600) / 60)} 分钟`);
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const base = (p) => String(p || "").split(/[\\/]/).pop();
 const ext = (n) => { const m = /\.([a-z0-9]{2,5})$/i.exec(n); return m ? m[1].toUpperCase() : ""; };
@@ -129,16 +129,16 @@ const I = {
 function row(d) {
   const total = Number(d.totalLength), done = Number(d.completedLength), speed = Number(d.downloadSpeed);
   const pct = total ? Math.min(100, (done / total) * 100) : d.status === "complete" ? 100 : 0;
-  const file = base(d.files?.[0]?.path) || "Download", e = ext(file);
-  const act = d.status === "active" || d.status === "waiting" ? `<button data-a="pause" title="Pause">${I.pause}</button>` : d.status === "paused" ? `<button data-a="resume" title="Resume">${I.play}</button>` : d.status === "error" ? `<button data-a="resume" title="Retry">${I.retry}</button>` : "";
+  const file = base(d.files?.[0]?.path) || "下载", e = ext(file);
+  const act = d.status === "active" || d.status === "waiting" ? `<button data-a="pause" title="暂停">${I.pause}</button>` : d.status === "paused" ? `<button data-a="resume" title="继续">${I.play}</button>` : d.status === "error" ? `<button data-a="resume" title="重试">${I.retry}</button>` : "";
   const bar = d.status === "complete" || d.status === "error" ? "" : `<span class="mini"><i style="width:${pct}%"></i></span>`;
-  const text = d.status === "active" ? `${bytes(done)} of ${bytes(total)} · ${bytes(speed)}/s${speed && total ? ` · ${clock((total - done) / speed)} left` : ""}`
-    : d.status === "complete" ? `${bytes(total || done)} · Finished`
-    : d.status === "paused" ? `${bytes(done)} of ${total ? bytes(total) : "?"} · Paused`
-    : d.status === "waiting" ? `${total ? bytes(total) : "Waiting"} · Waiting`
+  const text = d.status === "active" ? `${bytes(done)} / ${bytes(total)} · ${bytes(speed)}/s${speed && total ? ` · 剩余 ${clock((total - done) / speed)}` : ""}`
+    : d.status === "complete" ? `${bytes(total || done)} · 已完成`
+    : d.status === "paused" ? `${bytes(done)} / ${total ? bytes(total) : "?"} · 已暂停`
+    : d.status === "waiting" ? `${total ? bytes(total) : "等待中"} · 等待中`
     : "";
-  const sub = d.status === "error" ? `<span class="t err">${esc(d.errorMessage || "Failed")}</span>` : `${bar}<span class="t">${text}</span>`;
-  return `<div class="row ${d.status}" data-g="${d.gid}">${icon(d, pct)}<div class="name"><span class="n" title="${esc(file)}">${esc(file)}</span>${e ? `<span class="tag">${esc(e)}</span>` : ""}</div><div class="acts">${act}<button data-a="remove" title="Remove">${I.trash}</button></div><div class="sub">${sub}</div></div>`;
+  const sub = d.status === "error" ? `<span class="t err">${esc(d.errorMessage || "失败")}</span>` : `${bar}<span class="t">${text}</span>`;
+  return `<div class="row ${d.status}" data-g="${d.gid}">${icon(d, pct)}<div class="name"><span class="n" title="${esc(file)}">${esc(file)}</span>${e ? `<span class="tag">${esc(e)}</span>` : ""}</div><div class="acts">${act}<button data-a="remove" title="移除">${I.trash}</button></div><div class="sub">${sub}</div></div>`;
 }
 const group = (title, list, right = "") => (list.length ? `<div class="gh"><span>${title}</span><span class="gc">${list.length}</span><span class="gr">${right}</span></div>${list.map(row).join("")}` : "");
 
@@ -152,15 +152,15 @@ async function refresh() {
   let out;
   try {
     out = await rpc([["aria2.getGlobalStat"], ["aria2.tellActive", KEYS], ["aria2.tellWaiting", 0, 200, KEYS], ["aria2.tellStopped", 0, 200, KEYS]]);
-  } catch { $("speed").textContent = "Offline"; return; }
-  if (unauthorized(out[0])) { gate(secret ? "That isn't the right secret" : ""); return; }
+  } catch { $("speed").textContent = "离线"; return; }
+  if (unauthorized(out[0])) { gate(secret ? "密钥不正确" : ""); return; }
   $("gate").classList.remove("on");
   const stat = val(out[0]) || {}, now = Number(stat.downloadSpeed) || 0;
-  $("speed").textContent = now ? bytes(now) + "/s" : "Idle";
+  $("speed").textContent = now ? bytes(now) + "/s" : "空闲";
   hist.push(now); if (hist.length > 40) hist.shift(); spark();
   const active = val(out[1]) || [], waiting = val(out[2]) || [], stopped = (val(out[3]) || []).slice().reverse();
-  const html = group("Downloading", active, now ? bytes(now) + "/s" : "") + group("Waiting", waiting) + group("Finished", stopped);
-  $("list").innerHTML = html || `<p class="empty">No downloads yet.<br>Paste a link above to start one.</p>`;
+  const html = group("正在下载", active, now ? bytes(now) + "/s" : "") + group("等待中", waiting) + group("已完成", stopped);
+  $("list").innerHTML = html || `<p class="empty">暂无下载任务。<br>在上方粘贴链接以开始下载。</p>`;
 }
 
 function gate(msg) { $("bad").textContent = msg || ""; $("gate").classList.add("on"); $("secret").focus(); }
@@ -179,11 +179,11 @@ $("add").addEventListener("submit", async (e) => {
   const url = $("url").value.trim();
   if (!url) return;
   const r = (await rpc([["aria2.addUri", [url]]]))[0];
-  if (Array.isArray(r)) { $("url").value = ""; toast("Added"); } else toast(r?.message || "Couldn't add that");
+  if (Array.isArray(r)) { $("url").value = ""; toast("已添加"); } else toast(r?.message || "无法添加此下载任务");
   refresh();
 });
-$("pauseall").onclick = async () => { await rpc([["aria2.pauseAll"]]); toast("Paused everything"); refresh(); };
-$("resumeall").onclick = async () => { await rpc([["aria2.unpauseAll"]]); toast("Resumed"); refresh(); };
+$("pauseall").onclick = async () => { await rpc([["aria2.pauseAll"]]); toast("已暂停全部下载"); refresh(); };
+$("resumeall").onclick = async () => { await rpc([["aria2.unpauseAll"]]); toast("已继续下载"); refresh(); };
 
 // Remove asks twice: a stray tap on a phone shouldn't cancel a download.
 let armed = null, armTimer = 0;
@@ -193,7 +193,7 @@ $("list").addEventListener("click", async (e) => {
   if (!b) return;
   const gid = b.closest(".row").dataset.g, a = b.dataset.a;
   if (a === "remove") {
-    if (armed !== b) { disarm(); armed = b; b.classList.add("sure"); b.textContent = "Remove?"; clearTimeout(armTimer); armTimer = setTimeout(disarm, 3000); return; }
+    if (armed !== b) { disarm(); armed = b; b.classList.add("sure"); b.textContent = "确认移除？"; clearTimeout(armTimer); armTimer = setTimeout(disarm, 3000); return; }
     disarm();
   }
   await rpc([[{ pause: "aria2.pause", resume: "aria2.unpause", remove: "aria2.remove" }[a], gid]]);

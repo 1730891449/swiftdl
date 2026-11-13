@@ -173,7 +173,7 @@ pub async fn run(
         _ = cancel.cancelled() => return Ok(Outcome::Paused),
     };
     if let Some(dir) = req.dest.parent().filter(|d| !d.as_os_str().is_empty()) {
-        std::fs::create_dir_all(dir).with_context(|| format!("could not create {}", dir.display()))?;
+        std::fs::create_dir_all(dir).with_context(|| format!("无法创建 {}", dir.display()))?;
     }
     progress.total.store(remote.size.unwrap_or(0), Ordering::Relaxed);
     progress.resumable.store(remote.resumable, Ordering::Relaxed);
@@ -192,7 +192,7 @@ pub async fn run(
         if req.dest.exists() {
             std::fs::remove_file(&req.dest)?;
         }
-        std::fs::rename(&part, &req.dest).with_context(|| format!("could not rename to {}", req.dest.display()))?;
+        std::fs::rename(&part, &req.dest).with_context(|| format!("无法重命名为 {}", req.dest.display()))?;
     }
     Ok(outcome)
 }
@@ -220,7 +220,7 @@ async fn download_segmented(
             let file = OpenOptions::new().create(true).write(true).truncate(true).open(part)?;
             // Reserve the full size up front so segments can write anywhere
             // and there is no join step at the end.
-            file.set_len(size).context("not enough disk space?")?;
+            file.set_len(size).context("可能没有足够的磁盘空间")?;
             (file, initial_segments(size, req.connections))
         }
     };
@@ -295,7 +295,7 @@ async fn download_segmented(
             shared.file.sync_all()?;
             Ok(Outcome::Completed)
         }
-        Ok(true) => bail!("workers finished but data is missing (this is a bug)"),
+        Ok(true) => bail!("下载线程已结束，但仍有数据缺失（程序错误）"),
         Ok(false) => {
             save()?;
             Ok(Outcome::Paused)
@@ -352,7 +352,7 @@ async fn download_segment(shared: &Shared, seg: &Segment, id: usize) -> Result<(
             Ok(()) => {
                 failures += 1;
                 if failures > MAX_RETRIES {
-                    bail!("server keeps closing the connection at byte {pos}");
+                    bail!("服务器在第 {pos} 字节处反复关闭连接");
                 }
             }
             Err(e) => {
@@ -376,7 +376,7 @@ async fn fetch_range(shared: &Shared, url: &str, seg: &Segment, pos: u64, end: u
         .send()
         .await?;
     if resp.status() != StatusCode::PARTIAL_CONTENT {
-        bail!("expected 206 for a range request, got {}", resp.status());
+        bail!("分段请求应返回 206，实际返回 {}", resp.status());
     }
     let mut body = resp.bytes_stream();
     while let Some(chunk) = body.next().await {

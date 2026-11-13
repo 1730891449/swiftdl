@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "SwiftDL Integration",
+  "name": "SwiftDL 浏览器集成",
   "version": "0.4.0",
-  "description": "Sends your downloads to SwiftDL for faster, resumable downloading, and adds a download button to videos.",
+  "description": "将下载交给 SwiftDL，享受高速下载和断点续传，并为视频添加下载按钮。",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAv7cQHJNI1Ib1uldwt9Lu3KiQRdmEQAXUeyR790YkmUDXyCDlU7kO9LNaBJGGdvZsZ1WUwyszhyK1DHwmUj3XSONJBfo6V8B6bz/RcV+wNEQXWrzRqPszIxUJs/r7IXH0aUMyF0cRyKUO2+LJ+YEdwrGx/LyoFYb8DgUNGsDLgUXTHBVUQyrXKRoJhK45xPVXq9DELiJXDandfFcB5xRFET8uYdmmZSZFEAi6l3NbnOHMLULdoUoyI9JMVINaHUdnMmXxDZd6ZaCht5OgqcwRYdEGgai+9M73b5PHQYds4ey5h1NBHYkBNbMjFSG7/FH9v1sNXmmBO+bwBLZYRqUS6wIDAQAB",
   "permissions": ["downloads", "nativeMessaging", "cookies", "contextMenus", "storage", "webRequest"],
   "host_permissions": ["<all_urls>"],

@@ -440,7 +440,7 @@ mod tests {
     fn serves_the_web_remote_page() {
         let port = serve("127.0.0.1:0", Arc::new(fake()), "s3cret".into(), false).unwrap();
         let page = http(port, &format!("127.0.0.1:{port}"), "GET /", "");
-        assert!(page.starts_with("HTTP/1.1 200") && page.contains("<title>SwiftDL Remote</title>") && page.to_lowercase().contains("content-security-policy"), "{}", &page[..page.len().min(300)]);
+        assert!(page.starts_with("HTTP/1.1 200") && page.contains("<title>SwiftDL 远程控制</title>") && page.to_lowercase().contains("content-security-policy"), "{}", &page[..page.len().min(300)]);
         assert!(!page.contains("s3cret"), "the page never carries the secret");
         let other = http(port, &format!("127.0.0.1:{port}"), "GET /secret-files", "");
         assert!(other.starts_with("HTTP/1.1 404"), "{other}");

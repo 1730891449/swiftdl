@@ -7,8 +7,8 @@
   --accent: #007aff; --track: rgba(15, 15, 25, .14);
   --btn-bg: rgba(15, 15, 25, .055); --btn-hover: rgba(15, 15, 25, .09);
   --green: #23864f; --red: #cf4540; --kbd-bg: rgba(15, 15, 25, .06);
-  --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", system-ui, sans-serif;
-  --font-display: "Segoe UI Variable Display", "Segoe UI", -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", -apple-system, "SF Pro Display", "Inter", "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {

@@ -71,7 +71,7 @@ declare global { interface Window { __video?: unknown } }
     item("Big_Buck_Bunny_4K_60fps.mp4", 812 * MB, "downloading", 5, { frac: 0.18 }),
     item("blender-5.2-windows-x64.msi", 412 * MB, "queued", 6),
     item("lofi-sessions-vol3.flac", 286 * MB, "paused", 75, { frac: 0.34 }),
-    item("dataset-images-2026.tar.gz", 3.4 * GB, "error", 180, { frac: 0.31, error: "Server returned 403 Forbidden (link may have expired)" }),
+    item("dataset-images-2026.tar.gz", 3.4 * GB, "error", 180, { frac: 0.31, error: "服务器返回 403 Forbidden（链接可能已过期）" }),
     item("Annual-Report-2026.pdf", 14.2 * MB, "completed", 40),
     item("wallpaper-pack-aurora.zip", 88 * MB, "completed", 1500),
     item("VSCodeUserSetup-x64-1.108.exe", 98 * MB, "completed", 1520),
@@ -136,7 +136,7 @@ declare global { interface Window { __video?: unknown } }
 
   type Impl = { [K in keyof Commands]: (args: Commands[K][0]) => Commands[K][1] | Promise<Commands[K][1]> };
   const commands: Impl = {
-    get_state: () => ({ items: clone(), settings: { ...settings }, pending: [], version: "0.1.0 (preview)" }),
+    get_state: () => ({ items: clone(), settings: { ...settings }, pending: [], version: "0.1.0（预览版）" }),
     probe_url: async ({ url }) => {
       if (!VIDEO) await new Promise((r) => setTimeout(r, 700));
       const name = decodeURIComponent(new URL(url).pathname.split("/").filter(Boolean).pop() || "download.bin");
@@ -208,7 +208,7 @@ declare global { interface Window { __video?: unknown } }
       return { title: "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film", site: "Youtube", duration: 634, qualities: [
         { label: "2160p60", format: "bv*[height=2160]+ba", ext: "mp4", size: 1.9 * GB }, { label: "1440p60", format: "bv*[height=1440]+ba", ext: "mp4", size: 980 * MB },
         { label: "1080p60", format: "bv*[height=1080]+ba", ext: "mp4", size: 412 * MB }, { label: "720p60", format: "bv*[height=720]+ba", ext: "mp4", size: 198 * MB },
-        { label: "Audio only", format: "ba[ext=m4a]/ba", ext: "m4a", size: 9.8 * MB }] };
+        { label: "仅音频", format: "ba[ext=m4a]/ba", ext: "m4a", size: 9.8 * MB }] };
     },
   };
 
@@ -226,7 +226,7 @@ declare global { interface Window { __video?: unknown } }
   if (!VIDEO) document.addEventListener("DOMContentLoaded", () => {
     const b = document.createElement("div");
     b.className = "preview-banner";
-    b.textContent = "Preview · simulated downloads";
+    b.textContent = "预览模式 · 模拟下载";
     document.body.append(b);
   });
 })();
